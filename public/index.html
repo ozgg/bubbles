@@ -7,9 +7,9 @@
         :root {
             --bubble-hue: 120;
             --bubble-scale: 1;
-            --bubble-size: 10rem;
-            --bubble-x: 10vw;
-            --bubble-y: 10vh;
+            --bubble-size: 50vh;
+            --bubble-x: 0;
+            --bubble-y: 0;
         }
 
         html {
@@ -38,14 +38,13 @@
             -webkit-backdrop-filter: blur(.5rem);
             backdrop-filter: blur(.5rem);
             background: hsla(var(--bubble-hue, 120), 100%, 75%, .5);
-            border-radius: var(--bubble-size);
+            border-radius: 50%;
             box-shadow: 0 0 calc(var(--bubble-size) * .1) hsla(var(--bubble-hue, 120), 100%, 75%, .75);
             content: '\A';
             display: block;
             height: var(--bubble-size);
             left: var(--bubble-x);
             position: absolute;
-            transform: scale(var(--bubble-scale));
             top: var(--bubble-y);
             transition: 10s;
             width: var(--bubble-size);
@@ -86,11 +85,10 @@
             return `${Math.floor(Math.random() * (max - min)) + min}${postfix}`;
         },
         scramble: function (bubble) {
-            bubble.style.setProperty("--bubble-y", Bubbles.random(0, 100, "vh"));
-            bubble.style.setProperty("--bubble-x", Bubbles.random(0, 100, "vw"));
-            bubble.style.setProperty("--bubble-hue", Bubbles.random(240, 320, ""));
-            // bubble.style.setProperty("--bubble-size", Bubbles.random(1, 12, "rem"));
-            bubble.style.setProperty("--bubble-scale", String(parseInt(Bubbles.random(10, 100, "")) / 100));
+            bubble.style.setProperty("--bubble-y", Bubbles.random(5, 90, "vh"));
+            bubble.style.setProperty("--bubble-x", Bubbles.random(5, 90, "vw"));
+            bubble.style.setProperty("--bubble-hue", Bubbles.random(200, 359, ""));
+            bubble.style.setProperty("--bubble-size", Bubbles.random(10, 75, "vh"));
         },
         add: function (event) {
             const target = event.target;
@@ -105,6 +103,7 @@
         pop: function (event) {
             const bubble = event.target;
             bubble.remove();
+            Bubbles.items = Bubbles.items.filter(item => item !== bubble);
         }
     }
 

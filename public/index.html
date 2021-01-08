@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Пузырьки</title>
+    <style>
+        :root {
+            --bubble-hue: 120;
+            --bubble-scale: 1;
+            --bubble-size: 10rem;
+            --bubble-x: 10vw;
+            --bubble-y: 10vh;
+        }
+
+        html {
+            font-size: 10px;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(to top, #111, #333);
+            font-size: 1.6rem;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+
+        .bubble {
+            -webkit-backdrop-filter: blur(.5rem);
+            backdrop-filter: blur(.5rem);
+            background: hsla(var(--bubble-hue, 120), 100%, 75%, .5);
+            border-radius: var(--bubble-size);
+            box-shadow: 0 0 calc(var(--bubble-size) * .1) hsla(var(--bubble-hue, 120), 100%, 75%, .75);
+            content: '\A';
+            display: block;
+            height: var(--bubble-size);
+            left: var(--bubble-x);
+            position: absolute;
+            transform: scale(var(--bubble-scale));
+            top: var(--bubble-y);
+            transition: 10s;
+            width: var(--bubble-size);
+        }
+    </style>
+</head>
+<body>
+<main>
+    <div class="bubble"></div>
+</main>
+<script>
+    const Bubbles = {
+        container: undefined,
+        selector: ".bubble",
+        items: [],
+        interval: undefined,
+        init: function () {
+            const b = Bubbles;
+            b.container = document.querySelector("main");
+            document.querySelectorAll(b.selector).forEach(b.apply);
+            b.interval = window.setInterval(Bubbles.move, 10000);
+            setTimeout(Bubbles.move, 100);
+            b.container.addEventListener("click", b.add);
+        },
+        apply: function (item) {
+            Bubbles.items.push(item);
+            item.addEventListener("click", Bubbles.pop);
+        },
+        move: function () {
+            if (Bubbles.items.length > 0) {
+                Bubbles.items.forEach(Bubbles.scramble);
+            }
+        },
+        random: function (min, max, postfix) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+
+            return `${Math.floor(Math.random() * (max - min)) + min}${postfix}`;
+        },
+        scramble: function (bubble) {
+            bubble.style.setProperty("--bubble-y", Bubbles.random(0, 100, "vh"));
+            bubble.style.setProperty("--bubble-x", Bubbles.random(0, 100, "vw"));
+            bubble.style.setProperty("--bubble-hue", Bubbles.random(240, 320, ""));
+            // bubble.style.setProperty("--bubble-size", Bubbles.random(1, 12, "rem"));
+            bubble.style.setProperty("--bubble-scale", String(parseInt(Bubbles.random(10, 100, "")) / 100));
+        },
+        add: function (event) {
+            const target = event.target;
+            if (!target.matches(Bubbles.selector)) {
+                const bubble = document.createElement("div");
+                bubble.classList.add("bubble");
+                Bubbles.scramble(bubble);
+                Bubbles.apply(bubble);
+                Bubbles.container.append(bubble);
+            }
+        },
+        pop: function (event) {
+            const bubble = event.target;
+            bubble.remove();
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", Bubbles.init);
+</script>
+</body>
+</html>

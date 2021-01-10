@@ -43,9 +43,10 @@
             content: '\A';
             display: block;
             height: var(--bubble-size);
-            left: var(--bubble-x);
+            left: 0;
             position: absolute;
-            top: var(--bubble-y);
+            top: 0;
+            transform: translate(var(--bubble-x), var(--bubble-y));
             transition: 10s;
             width: var(--bubble-size);
         }
@@ -66,7 +67,7 @@
             b.container = document.querySelector("main");
             document.querySelectorAll(b.selector).forEach(b.apply);
             b.interval = window.setInterval(Bubbles.move, 10000);
-            setTimeout(Bubbles.move, 100);
+            Bubbles.move();
             b.container.addEventListener("click", b.add);
         },
         apply: function (item) {

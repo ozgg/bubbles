@@ -35,9 +35,7 @@
         }
 
         .bubble {
-            -webkit-backdrop-filter: blur(.5rem);
-            backdrop-filter: blur(.5rem);
-            background: hsla(var(--bubble-hue, 120), 100%, 75%, .5);
+            background-color: hsla(var(--bubble-hue, 120), 100%, 75%, .5);
             border-radius: 50%;
             box-shadow: 0 0 calc(var(--bubble-size) * .1) hsla(var(--bubble-hue, 120), 100%, 75%, .75);
             content: '\A';
@@ -47,7 +45,7 @@
             position: absolute;
             top: 0;
             transform: translate(var(--bubble-x), var(--bubble-y));
-            transition: 10s;
+            transition: background-color 10s, height 10s, width 10s, transform 10s, box-shadow 10s;
             width: var(--bubble-size);
         }
     </style>
@@ -89,7 +87,7 @@
             bubble.style.setProperty("--bubble-y", Bubbles.random(5, 90, "vh"));
             bubble.style.setProperty("--bubble-x", Bubbles.random(5, 90, "vw"));
             bubble.style.setProperty("--bubble-hue", Bubbles.random(200, 359, ""));
-            bubble.style.setProperty("--bubble-size", Bubbles.random(10, 75, "vh"));
+            bubble.style.setProperty("--bubble-size", Bubbles.random(10, 50, "vh"));
         },
         add: function (event) {
             const target = event.target;
